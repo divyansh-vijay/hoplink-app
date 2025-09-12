@@ -1,11 +1,13 @@
 // app/WelcomeScreen.js
 import { AntDesign } from "@expo/vector-icons"
 import { LinearGradient } from "expo-linear-gradient"
+import { useRouter } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 import React from "react"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
-
 export default function WelcomeScreen({ navigation }) {
+	const router = useRouter()
+
 	return (
 		<LinearGradient
 			colors={["#00c6ff", "#7d2ae8"]}
@@ -22,7 +24,7 @@ export default function WelcomeScreen({ navigation }) {
 
 			<TouchableOpacity
 				style={styles.button}
-				onPress={() => navigation.navigate("Login")}>
+				onPress={() => router.push("/login")}>
 				<Text style={styles.buttonText}>Get Started</Text>
 			</TouchableOpacity>
 		</LinearGradient>

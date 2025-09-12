@@ -70,7 +70,7 @@ export default function MessagesList() {
     const renderItem = ({ item: chat }) => (
         <TouchableOpacity
             style={styles.chatCard}
-            onPress={() => router.push(`/chat/${chat.id}`)}
+            onPress={() => router.push(`/(tabs)/message/${chat.id}`)}
         >
             <View style={styles.avatarContainer}>
                 <Image source={chat.user.avatar} style={styles.avatar} />

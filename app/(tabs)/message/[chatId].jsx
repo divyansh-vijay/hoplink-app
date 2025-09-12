@@ -1,4 +1,5 @@
 // ChatScreen.jsx
+import { useRouter } from "expo-router"
 import React, { useEffect, useRef, useState } from "react"
 import {
     FlatList,
@@ -11,6 +12,7 @@ import {
     View,
 } from "react-native"
 import { Avatar, Card } from "react-native-paper"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 import Icon from "react-native-vector-icons/Feather"
 
 const mockMessages = [
@@ -30,7 +32,9 @@ const mockUser = {
     lastSeen: "Active now",
 }
 
-export default function ChatScreen({ navigation }) {
+export default function ChatScreen() {
+    const router = useRouter()
+    const insets = useSafeAreaInsets()
     const [messages, setMessages] = useState(mockMessages)
     const [newMessage, setNewMessage] = useState("")
     const [isTyping, setIsTyping] = useState(false)
@@ -92,12 +96,15 @@ export default function ChatScreen({ navigation }) {
     return (
         <KeyboardAvoidingView
             style={styles.container}
-            behavior={Platform.OS === "ios" ? "padding" : undefined}
-            keyboardVerticalOffset={80}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={insets.top}
         >
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconButton}>
+                <TouchableOpacity
+                    onPress={() => (router.canGoBack() ? router.back() : router.replace("/(tabs)"))}
+                    style={styles.iconButton}
+                >
                     <Icon name="arrow-left" size={22} />
                 </TouchableOpacity>
 
@@ -126,17 +133,18 @@ export default function ChatScreen({ navigation }) {
                 keyExtractor={(item) => item.id}
                 renderItem={renderMessage}
                 contentContainerStyle={styles.messagesContainer}
+                keyboardShouldPersistTaps="handled"
             />
 
             {/* Typing Indicator */}
             {isTyping && (
-                <View style={styles.typingIndicator}>
-                    <Text style={{ fontStyle: "italic", color: "#666" }}>Typing...</Text>
-                </View>
+                // <View style={styles.typingIndicator}>
+                // </View>
+                <Text style={{ fontStyle: "italic", color: "#666", marginLeft: 10 }}>Typing...</Text>
             )}
 
             {/* Input */}
-            <View style={styles.inputContainer}>
+            <View style={[styles.inputContainer, { paddingBottom: Math.max(8, insets.bottom) }]}>
                 <TouchableOpacity>
                     <Icon name="paperclip" size={22} style={styles.iconButton} />
                 </TouchableOpacity>
