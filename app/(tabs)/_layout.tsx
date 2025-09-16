@@ -47,6 +47,19 @@ export default function TabLayout() {
 					),
 				}}
 			/>
+			<Tabs.Screen
+				name="signup"
+				options={{
+					title: "SignUp",
+					tabBarIcon: ({ color }) => (
+						<IconSymbol
+							size={28}
+							name="person.fill"
+							color={color}
+						/>
+					),
+				}}
+			/>
 		</Tabs>
 	)
 }
